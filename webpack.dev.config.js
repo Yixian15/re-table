@@ -31,8 +31,28 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.cm\.styl$/,
-        loader: 'style-loader!css-loader?modules&camelCase&localIdentName=[local]-[hash:base64:5]!stylus-loader'
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: true,
+              modules: true,
+              localIdentName: '[name]-[local]-[hash:base64:5]'
+            }
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                strictMath: true
+              },
+            },
+          },
+        ],
       }
     ]
   },
