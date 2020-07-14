@@ -10,6 +10,10 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
   },
   resolve: {
+    alias: {
+      '@src': path.resolve(__dirname, './src'),
+      '@Table': path.resolve(__dirname, './src/Table')
+    },
     extensions: [
       '.js', '.jsx', '.ts', '.tsx'
     ]

@@ -11,6 +11,10 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   resolve: {
+    alias: {
+      '@src': path.resolve(__dirname, './src'),
+      '@Table': path.resolve(__dirname, './src/Table')
+    },
     extensions: [
       '.js', '.jsx', '.ts', '.tsx'
     ]
