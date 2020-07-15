@@ -1,15 +1,30 @@
-export interface Header {
+import { CSSProperties } from "react";
+
+interface MoreProperties {
+  [key: string]: any;
+}
+
+export interface Header extends MoreProperties {
   key: string;
   label: string;
   dataIndex?: string; // will be replaced with key if it's ommited
+  freeze?: true | 'left' | 'right';
+  width?: CSSProperties['width'];
 }
 
-export interface Row {
+export interface Row extends MoreProperties {
   key: string;
-  [property: string]: any
 }
 
-export interface TableProps {
+export interface TableProps extends MoreProperties {
   headers: Header[];
-  rows: Row[]
+  rows: Row[];
+  bordered?: boolean;
+  width?: CSSProperties['width'];
+  height?: CSSProperties['height'];
 }
+
+export type ScrollDistance = {
+  left?: number;
+  top?: number;
+};

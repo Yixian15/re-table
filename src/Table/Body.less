@@ -1,0 +1,29 @@
+@import './shared.less';
+
+.body {
+  overflow: scroll;
+}
+
+.bordered {
+  .body {
+    border-left: @border-line;
+    border-right: @border-line;
+  }
+
+  .body-cell-container {
+    border-bottom: @border-line;
+    
+    &:not(:last-of-type) {
+      border-right: @border-line;
+    }
+  }
+}
+
+.body-row {
+
+}
+
+.body-cell-container {
+  text-align: center;
+}
+

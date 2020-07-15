@@ -1,12 +1,16 @@
 import React from 'react';
 
-import Basic from './Basic';
+import BasicDemo from './Basic';
+import Bordered from './Bordered';
 
 export default function () {
   return (
     <div>
       Basic
-      <Basic />
+      <BasicDemo />
+
+      Bordered
+      <Bordered />
     </div>
   )
 }

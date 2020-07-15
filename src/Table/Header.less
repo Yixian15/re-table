@@ -1,0 +1,24 @@
+@import 'shared.less';
+
+.header {
+  overflow: hidden;
+}
+
+.bordered {
+  .header {
+    border: @border-line;
+    border-bottom: none;
+  }
+
+  .header-cell-container {
+    border-bottom: 1px solid @grey;
+
+    &:not(:last-of-type) {
+      border-right: 1px solid @grey;
+    }
+  }
+}
+
+.header-cell-container {
+
+}

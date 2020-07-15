@@ -6,7 +6,7 @@ import Table from '@src/Table';
 export default function () {
   return (
     <div>
-      <Table {...data.basic} />
+      <Table {...data.basic} bordered />
     </div>
   )
 }
