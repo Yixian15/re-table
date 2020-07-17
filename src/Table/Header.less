@@ -1,24 +1,58 @@
-@import 'shared.less';
+@import "shared.less";
+
+.container {
+  position: relative;
+}
 
 .header {
   overflow: hidden;
 }
 
 .bordered {
-  .header {
-    border: @border-line;
-    border-bottom: none;
-  }
+  border-top: @border-line;
 
   .header-cell-container {
-    border-bottom: 1px solid @grey;
+    border-bottom: @border-line;
 
     &:not(:last-of-type) {
-      border-right: 1px solid @grey;
+      border-right: @border-line;
     }
+  }
+
+  .header-border-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: @border-line;
+  }
+
+  .header-border-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-right: @border-line;
+  }
+
+  .freezed-right {
+    border-left: @border-line;
   }
 }
 
-.header-cell-container {
+.freezed {
+  position: absolute;
+  top: 0;
+  background: white;
+}
 
+.freezed-left {
+  &:extend(.freezed);
+  left: 0;
+}
+
+.freezed-right {
+  &:extend(.freezed);
+  right: 0;
+}
+
+.header-cell-container {
 }

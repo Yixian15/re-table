@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classnames from 'classnames';
 
 import { TableProps } from './index';
 import { Header, ScrollDistance } from './types';
+import { getHeaderWidth, isFreezedRightHeader, isFreezedLeftHeader } from './utils';
 
 import styles from './Header.less';
+
 interface HeaderProps extends TableProps {
   scrollDistance?: ScrollDistance;
 }
@@ -39,22 +41,85 @@ function Header(props: HeaderProps) {
   }
 
   return (
-    <div className={classnames({ [styles.bordered]: bordered })}>
-      <div className={classnames(styles.header)} style={containerStyle}>
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              {
-                headers.map((header) => {
-                  return <HeaderCell key={header.key} {...props} header={header} />
-                })
-              }
-            </tr>
-          </thead>
-        </table>
-      </div>
+    <div className={classnames(styles.header)} style={containerStyle}>
+      <table style={tableStyle}>
+        <thead>
+          <tr>
+            {
+              headers.map((header) => {
+                return <HeaderCell key={header.key} {...props} header={header} />
+              })
+            }
+          </tr>
+        </thead>
+      </table>
     </div>
   )
 }
 
-export default Header;
+
+function ComposedHeader(props: HeaderProps) {
+  const { headers, width, bordered } = props;
+
+  const freezedLeftHeaders = headers.filter(isFreezedLeftHeader);
+  // column width + container border width
+  const freezedLeftWidth = freezedLeftHeaders.reduce((total, header) => (header.width || 0) + total, 0);
+
+  const freezedRightHeaders = headers.filter(isFreezedRightHeader);
+  const freezedRightWidth = freezedRightHeaders.reduce((total, header) => (header.width || 0) + total, 0);
+  const nonFreezedRightHeadersWidth = headers.filter((header) => !isFreezedRightHeader(header)).reduce((total, header) => getHeaderWidth(header, bordered) + total, 0);
+
+  const containerStyle = {
+    width
+  };
+
+  const freezedRightStyle = {
+  }
+
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const headerContainer = headerContainerRef?.current;
+    if (headerContainer) {
+      const headerContainerRect = headerContainer?.getBoundingClientRect();
+      setHeaderHeight(headerContainerRect.height);
+    }
+
+  }, [])
+
+  // Header cell height would be mis-aligned if only freezed headers are rendered.
+  // All headers need to be rendered, then hide the invisible columns.
+  return (
+    <div className={classnames(styles.container, { [styles.bordered]: bordered })} style={containerStyle} ref={headerContainerRef}>
+      <Header {...props} />
+      {
+        freezedLeftHeaders.length > 0 && (
+          <div className={styles.freezedLeft}>
+            <Header {...props} width={freezedLeftWidth} scrollDistance={{}} />
+          </div>
+        )
+      }
+
+      {
+        freezedRightHeaders.length > 0 && (
+          <div className={styles.freezedRight} style={freezedRightStyle}>
+            <Header {...props} width={freezedRightWidth} scrollDistance={{ left: nonFreezedRightHeadersWidth }} />
+          </div>
+        )
+      }
+
+      {
+        bordered && (
+          <div>
+            <div className={styles.headerBorderLeft} style={{ height: headerHeight }} />
+            <div className={styles.headerBorderRight} style={{ height: headerHeight }} />
+          </div>
+        )
+      }
+
+    </div>
+  )
+}
+
+export default ComposedHeader;

@@ -41,23 +41,46 @@ export const basic: TableProps = {
       key: '2',
       product: 'Banana',
       price: 5
-    },{
+    }, {
       key: '3',
       product: 'Orange',
       price: 5
-    },{
+    }, {
       key: '4',
       product: 'Watermelon',
       price: 5
-    },{
+    }, {
       key: '5',
       product: 'Avocado',
       price: 5
-    },{
+    }, {
       key: '6',
       product: 'tomato',
       price: 5
     }
   ],
   width: 600
+};
+
+const freezedLeftHeaders: Header[] = [
+  {
+    key: 'freezedLeft',
+    label: 'freezedLeft',
+    freeze: true
+  }
+]
+
+const freezedRightHeaders: Header[] = [
+  {
+    key: 'freezedRight',
+    label: 'freezedRight',
+    freeze: 'right'
+  }
+]
+
+export const freezed: TableProps = {
+  headers: [...freezedLeftHeaders, ...basic.headers, ...freezedRightHeaders],
+  rows: basic.rows,
+  width: 600,
+  bordered: true,
 };

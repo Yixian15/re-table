@@ -9,7 +9,8 @@ export interface Header extends MoreProperties {
   label: string;
   dataIndex?: string; // will be replaced with key if it's ommited
   freeze?: true | 'left' | 'right';
-  width?: CSSProperties['width'];
+  width?: number; // need to know width in number in order to calculate freezed width
+  children?: Header[];
 }
 
 export interface Row extends MoreProperties {
@@ -20,7 +21,7 @@ export interface TableProps extends MoreProperties {
   headers: Header[];
   rows: Row[];
   bordered?: boolean;
-  width?: CSSProperties['width'];
+  width?: number;
   height?: CSSProperties['height'];
 }
 
