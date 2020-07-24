@@ -19,14 +19,16 @@ interface BodyRowProps extends TableProps {
 function BodyRow(props: BodyRowProps) {
   const { row, headers } = props;
 
+  const leaves = getLeaves(headers);
+
   return (
     <tr key={row.key} className={styles.bodyRow}>
       {
-        headers.map((header) => {
+        leaves.map((header) => {
           const value = row[header.dataIndex || header.key];
 
           const cellStyle = {
-            minWidth: header.width
+            minWidth: getHeaderWidth(header)
           };
 
           return (

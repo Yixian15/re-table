@@ -6,6 +6,8 @@ import { Header, ScrollDistance } from './types';
 import { getHeaderWidth, isFreezedRightHeader, isFreezedLeftHeader } from './utils';
 
 import styles from './Header.less';
+import { createNoSubstitutionTemplateLiteral } from 'typescript';
+import Bordered from '@src/Examples/Bordered';
 
 interface HeaderProps extends TableProps {
   scrollDistance?: ScrollDistance;
@@ -16,15 +18,47 @@ interface HeaderCellProps extends TableProps {
 }
 
 function HeaderCell(props: HeaderCellProps) {
-  const { header } = props;
+  const { header, bordered } = props;
+  const children = header.children || [];
+  const subTableWidth = children.reduce((total, child) => total + getHeaderWidth(child), 0); // nested header
 
   const headerStyle = {
-    minWidth: header.width
+    width: Math.max(getHeaderWidth(header), subTableWidth)
   };
 
   return (
-    <th key={header.key} style={headerStyle} className={styles.headerCellContainer}>
-      {header.label}
+    <th key={header.key} className={styles.headerCellContainer}>
+      <div style={headerStyle}>
+        {header.label}
+
+        {
+          children.length > 0 && (
+            <div className={styles.subTableDivider}>
+              <table>
+                <thead>
+                  <tr>
+
+
+                    {
+                      children.map((child) => {
+                        return (
+                          <HeaderCell key={child.key} {...props} header={child} />
+                        )
+                      })
+                    }
+
+                  </tr>
+                </thead>
+              </table>
+
+            </div>
+          )
+        }
+      </div>
+
+      {
+        bordered && <div className={styles.border} />
+      }
     </th>
   )
 }

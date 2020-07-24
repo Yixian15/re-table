@@ -11,12 +11,22 @@
 .bordered {
   border-top: @border-line;
 
-  .header-cell-container {
+  .header {
     border-bottom: @border-line;
+  }
 
-    &:not(:last-of-type) {
-      border-right: @border-line;
-    }
+  .header-cell-container {
+    position: relative;
+  }
+
+  .border {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    bottom: 0;
+
+    width: 1px;
+    background: @grey;
   }
 
   .header-border-left {
@@ -35,6 +45,10 @@
 
   .freezed-right {
     border-left: @border-line;
+  }
+
+  .sub-table-divider {
+    border-top: @border-line;
   }
 }
 

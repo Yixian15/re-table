@@ -17,14 +17,6 @@ export const basic: TableProps = {
     {
       key: 'count',
       label: 'count'
-    },
-    {
-      key: 'foo',
-      label: 'foo'
-    },
-    {
-      key: 'bar',
-      label: 'bar'
     }
   ],
   rows: [
@@ -33,9 +25,7 @@ export const basic: TableProps = {
       id: '1',
       product: 'Apple',
       price: 10,
-      count: 100,
-      foo: 'adad',
-      bar: 'zxzx'
+      count: 100
     },
     {
       key: '2',
@@ -84,3 +74,69 @@ export const freezed: TableProps = {
   width: 600,
   bordered: true,
 };
+
+const nestedHeaders = [
+  {
+    key: 'foo',
+    label: 'foofoo foofoo foofoo foofoo foofoo foofoo foofoo foofoo foofoo ',
+    children: [
+      {
+        key: 'foo_1',
+        label: 'foo_1'
+      },
+      {
+        key: 'foo_2',
+        label: 'foo_2'
+      }
+    ]
+  },
+  {
+    key: 'bar',
+    label: 'bar',
+    children: [
+      {
+        key: 'bar_1',
+        label: 'bar_1'
+      },
+      {
+        key: 'bar_2',
+        label: 'bar_2',
+        children: [
+          {
+            key: 'bar_3',
+            label: 'bar_3'
+          },
+          {
+            key: 'bar_4',
+            label: 'bar_5',
+          }
+        ]
+      }
+    ],
+  },
+  {
+    key: 'biz',
+    label: 'biz',
+    children: [
+      {
+        key: 'biz_1',
+        label: 'biz_1'
+      }
+    ]
+  }
+]
+
+const nestedRows = [
+  ...basic.rows,
+  {
+    key: '7',
+    foo_1: '12313 ad 112313 ad 112313 ad 112313 ad 1 12313 ad 1'
+  }
+];
+
+export const nested: TableProps = {
+  headers: [...basic.headers, ...nestedHeaders],
+  rows: nestedRows,
+  width: 600,
+  bordered: true,
+}

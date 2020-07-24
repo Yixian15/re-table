@@ -7,13 +7,13 @@ function isLeaf(header: Header) {
 
 export function getLeaves(headers: Header[]) {
   const leaves: Header[] = [];
-  const queue: Header[] = headers;
+  const queue: Header[] = headers.map((header) => ({ ...header }));
   while (queue.length > 0) {
-    const head: Header = queue.shift() as Header;
-    if (!head.children || (head.children.length === 0)) {
-      leaves.push(head);
+    const current: Header = queue.shift() as Header;
+    if (!current.children || (current.children.length === 0)) {
+      leaves.push(current);
     } else {
-      head.children.forEach((child) => queue.push(child))
+      queue.splice(0, 0, ...current.children);
     }
   }
 
