@@ -10,6 +10,8 @@ import styles from './Body.less';
 interface BodyProps extends TableProps {
   onScroll(distance: ScrollDistance): void;
   scrollable?: boolean;
+  isAtLeftBorder?: boolean;
+  isAtRightBorder?: boolean;
 }
 
 interface BodyRowProps extends TableProps {
@@ -115,15 +117,15 @@ function Body(props: BodyProps) {
 }
 
 function ComposedBody(props: BodyProps) {
-  const { headers, bordered, width = 0 } = props;
+  const { headers, bordered, width = 0, isAtLeftBorder, isAtRightBorder, } = props;
 
   const freezedLeftHeaders = headers.filter(isFreezedLeftHeader);
   // column width + container border width
-  const freezedLeftWidth = freezedLeftHeaders.reduce((total, header) => total + getHeaderWidth(header, bordered), 0);
+  const freezedLeftWidth = freezedLeftHeaders.reduce((total, header) => total + getHeaderWidth(header,), 0);
 
   const freezedRightHeaders = headers.filter(isFreezedRightHeader)
-  const freezedRightWidth = freezedRightHeaders.reduce((total, header) => getHeaderWidth(header, bordered) + total, 0);
-  const nonFreezedRightHeadersWidth = headers.filter((header) => !isFreezedRightHeader(header)).reduce((total, header) => getHeaderWidth(header, bordered) + total, 0);
+  const freezedRightWidth = freezedRightHeaders.reduce((total, header) => getHeaderWidth(header,) + total, 0);
+  const nonFreezedRightHeadersWidth = headers.filter((header) => !isFreezedRightHeader(header)).reduce((total, header) => getHeaderWidth(header,) + total, 0);
 
   const containerStyle = {
     width
@@ -135,7 +137,7 @@ function ComposedBody(props: BodyProps) {
         <Body {...props} scrollable />
 
         {
-          freezedLeftHeaders.length > 0 && (
+          freezedLeftHeaders.length > 0 && !isAtLeftBorder && (
             <div className={styles.freezedLeft} >
               <Body {...props} width={freezedLeftWidth} />
             </div>
@@ -143,7 +145,7 @@ function ComposedBody(props: BodyProps) {
         }
 
         {
-          freezedLeftHeaders.length > 0 && (
+          freezedLeftHeaders.length > 0 && !isAtRightBorder && (
             <div className={styles.freezedRight} >
               <Body {...props} width={freezedRightWidth} scrollDistance={{ left: -nonFreezedRightHeadersWidth }} />
             </div>

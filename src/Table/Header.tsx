@@ -11,6 +11,8 @@ import Bordered from '@src/Examples/Bordered';
 
 interface HeaderProps extends TableProps {
   scrollDistance?: ScrollDistance;
+  isAtLeftBorder?: boolean;
+  isAtRightBorder?: boolean;
 }
 
 interface HeaderCellProps extends TableProps {
@@ -93,7 +95,7 @@ function Header(props: HeaderProps) {
 
 
 function ComposedHeader(props: HeaderProps) {
-  const { headers, width, bordered } = props;
+  const { headers, width, bordered, isAtLeftBorder, isAtRightBorder } = props;
 
   const freezedLeftHeaders = headers.filter(isFreezedLeftHeader);
   // column width + container border width
@@ -101,7 +103,7 @@ function ComposedHeader(props: HeaderProps) {
 
   const freezedRightHeaders = headers.filter(isFreezedRightHeader);
   const freezedRightWidth = freezedRightHeaders.reduce((total, header) => (header.width || 0) + total, 0);
-  const nonFreezedRightHeadersWidth = headers.filter((header) => !isFreezedRightHeader(header)).reduce((total, header) => getHeaderWidth(header, bordered) + total, 0);
+  const nonFreezedRightHeadersWidth = headers.filter((header) => !isFreezedRightHeader(header)).reduce((total, header) => getHeaderWidth(header) + total, 0);
 
   const containerStyle = {
     width
@@ -128,7 +130,7 @@ function ComposedHeader(props: HeaderProps) {
     <div className={classnames(styles.container, { [styles.bordered]: bordered })} style={containerStyle} ref={headerContainerRef}>
       <Header {...props} />
       {
-        freezedLeftHeaders.length > 0 && (
+        freezedLeftHeaders.length > 0 && !isAtLeftBorder && (
           <div className={styles.freezedLeft}>
             <Header {...props} width={freezedLeftWidth} scrollDistance={{}} />
           </div>
@@ -136,7 +138,7 @@ function ComposedHeader(props: HeaderProps) {
       }
 
       {
-        freezedRightHeaders.length > 0 && (
+        freezedRightHeaders.length > 0 && !isAtRightBorder && (
           <div className={styles.freezedRight} style={freezedRightStyle}>
             <Header {...props} width={freezedRightWidth} scrollDistance={{ left: nonFreezedRightHeadersWidth }} />
           </div>

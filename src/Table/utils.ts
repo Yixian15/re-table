@@ -20,16 +20,14 @@ export function getLeaves(headers: Header[]) {
   return leaves;
 }
 
-export function getHeaderWidth(header: Header, borderd?: boolean) {
+export function getHeaderWidth(header: Header,) {
   if (isLeaf(header)) {
-    return (header.width || DEFAULT_COLUMN_WIDTH) + (borderd ? 1 : 0);
+    return (header.width || DEFAULT_COLUMN_WIDTH);
   } else {
     const leaves: Header[] = getLeaves([header]);
-
     const columnWidthSum = leaves.reduce((total, header) => (header.width || DEFAULT_COLUMN_WIDTH) + total, 0);
-    const borderWidthSum = borderd ? (header.children as Header[]).length - 1 : 0;
 
-    return columnWidthSum + borderWidthSum;
+    return columnWidthSum;
   }
 }
 
